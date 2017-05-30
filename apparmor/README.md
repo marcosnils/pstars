@@ -244,7 +244,7 @@ In this step we'll show how a custom AppArmor profile could have protected Docke
 
    ```
    $ git clone https://github.com/marcosnils/pstars.git
-   $ cd apparmor/wordpress
+   $ cd pstars/apparmor/wordpress
    ```
 
 2.  List the files in the directory.
