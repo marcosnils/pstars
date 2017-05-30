@@ -67,13 +67,13 @@ In this step you will clone the lab's GitHub repo so that you have the seccomp p
 1. Clone the labs GitHub repo.
 
    ```
-   $ git clone https://github.com/docker/labs
+   $ git clone https://github.com/marcosnils/pstars.git
    ```
 
-2. Change into the `labs/security/seccomp` directory.
+2. Change into the `pstars/security/seccomp` directory.
 
    ```
-   $ cd labs/security/seccomp/seccomp-profiles
+   $ cd pstars/security/seccomp/seccomp-profiles
    ```
 
 The remaining steps in this lab will assume that you are running commands from this `labs/security/seccomp` directory. This will be important when referencing the seccomp profiles on the various `docker run` commands throughout the lab.
