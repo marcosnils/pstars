@@ -243,8 +243,8 @@ In this step we'll show how a custom AppArmor profile could have protected Docke
 1.  If you have not already, clone the lab and `cd` into the lab's `wordpress` directory.
 
    ```
-   $ git clone https://github.com/docker/labs.git
-   $ cd labs/security/apparmor/wordpress
+   $ git clone https://github.com/marcosnils/pstars.git
+   $ cd apparmor/wordpress
    ```
 
 2.  List the files in the directory.
