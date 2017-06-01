@@ -8,6 +8,7 @@ In this lab you will deploy an application on Docker Enterprise Edition that tak
 - Overlay networking
 - Application secrets
 - Application health checks
+- Using RBAC in UCP
 
 > **Difficulty**: Intermediate
 
