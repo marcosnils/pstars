@@ -31,6 +31,11 @@ In this lab you will deploy an application on Docker Enterprise Edition that tak
 >   * [Task 3.3: Using Healthchecks to Control Application Lifecycle](#task3.3)
 >   * [Task 3.4: Upgrading with a Rolling Update](#task3.4)
 >   * [Task 3.5: Configuring Layer 7 Load Balancing](#task3.5)
+> * [Task 4: Using RBAC in UCP](#task4)
+>   * [Task 4.1: Create UCP users](#task4.1)
+>   * [Task 4.2: Create UCP teams and labels](#task4.2)
+>   * [Task 4.3: Create service definitions](#task4.3)
+>   * [Task 4.4: Let's put permissions in practice](#task4.4)
 
 ## Document conventions
 
@@ -654,7 +659,84 @@ secrets:
         external: true
 ```
 
+## <a name="task4"></a>Task4: Using RBAC in UCP
 
+The purpose of this task will be to understand how to leverage teams and labels to implement a strong an flexible Role Based Access Model in UCP.
+The easiest way to understand RBAC is through an example. Let’s say you are the system administrator for AppCo, which is developing a containerized application called myApp. 
+You have three teams within your organization—a Dev team, an Ops team, and a Biz team—each of which interacts with myApp in a different way. Dev needs to build the app and test it on the cluster. 
+Ops needs to deploy the application and access kernel-level resources on hosts. Biz wants to take a look at myApp from time to time.
+
+![](images/rbac.png) 
+
+All of these teams need to access myApp, but how do you ensure that each team onlys get the specific level of access it needs to get the job done? Let’s walk through how RBAC works in UCP, and use AppCo along the way as an example.
+
+### <a name="task4.2"></a>Task 4.2: Create UCP users
+
+The first thing we need to do is to setup the users of our company. Log in as an admin and under the `User Management` bar at the top, let's go ahead
+and add some users to our company
+
+Let's first add a Developer with restricted control access:
+
+![](images/dev.png) 
+
+> Password needs to be 8 chars long at least, so make sure to setup an easy password to remember like: 12345678
+
+Repeat the previous setup and add one more user for Biz and Ops accordingly. Don't forget to set the permissions as `View Only` for the
+Biz user and `Full Control` for the Ops users.
+
+### <a name="task4.3"></a>Task 4.2: Create UCP teams and labels
+
+Now, it's time to create our teams. Click the `+ Create` option under the teams section and create just one team per group.
+At the same time we'll create a label called `myapp` and we'll assign the proper permission according to the team we're creating.
+
+![](images/tlabel.png) 
+
+Repeat the previous step for the Biz and Ops teams. Don't forget to create and assign the `myapp` label with the proper permission. 
+
+You might be wondering how permissions work in UCP. Below there's an image that describes what each role has permission to.
+
+![](images/permissions_ucp.png) 
+
+### <a name="task4.4"></a>Task 4.4: Let's put permissions in practice
+
+Imagine now that we need to deploy a new service that's part of `myapp`. Let's move to the `Resources` menu and locate the
+`Permission label` option after clicking the `Create a service` button.
+
+![](images/service_label.png)
+
+Let's create a simple `nginx` service by adding `nginx` in the image name and we'll also add the `myapp` label
+in the permission label to show how RBAC works in practice.
+
+![](images/myapp_service.png)
+
+Go ahead and click `Deploy now!` and wait for your service to be ready. If we we go to the `Containers` section under `Resources` and
+we click on the newly created container, we'll see that our permission label got inherited by the container as expected
+
+![](images/container_label.png)
+
+Let's switch browsers (or open a new incognito tab) and log-in with the Biz account. You should immediately notice that you have less
+options in the nav bar as our user has a "View Only" access permission.
+
+![](images/biz_menu.png)
+
+
+We'll go to the `Resources` option with the biz account and we'll try to scale the service to see what happens.
+
+![](images/biz_scale.png)
+
+As you might have imagined, as the the `Biz` members only have "View only" permissions assigned to the `myapp` label, they
+won't be able to make any modifications that affect the current running services or containers. 
+
+Now we'll run the exercise and try to do the same thing with the `dev` user. As you would expect, as the `dev` user has `Restricted Control`, 
+you'll be able to scale the `myapp` service without any issues. Let's see what happens now if the `dev` user tries to make an `exec` into a running container.
+For that purpose we'll go to the `Containers` menu, select a running container and under `_Console` we'll try to run `sh`.
+
+![](images/dev_exec.png)
+
+
+Finally, let's log in as the `ops` user and verify that you have all the necessary permissions to scale and `exec` into the corresponding containers.
+
+![](images/ops_exec.png)
 
 
 ### Congratulations, you have completed the lab!!
