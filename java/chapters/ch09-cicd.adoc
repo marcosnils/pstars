@@ -16,7 +16,7 @@ NOTE: Another option is running Jenkins on Docker and do a complete Docker insta
 
 In this example, we will run Jenkins on Docker and use the underlying Docker installed on the host to run Docker commands. This technique is known as Docker outside of Docker.
 
-First, clone the project at https://github.com/marcosnils/pstars/java/jenkins-docker-demo
+First, clone the project at https://github.com/marcosnils/jenkins-docker-demo
 
 Then, in the project folder, run:
 
